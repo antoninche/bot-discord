@@ -1,0 +1,196 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bot Discord – Projet Python</title>
+  <meta name="description" content="Présentation du bot Discord : administration, rôles, vocal et utilitaires, avec une architecture modulaire." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header">
+    <div class="container header-grid">
+      <div class="header-left">
+        <p class="tag">Python • discord.py 2.x • Architecture modulaire</p>
+        <h1>Bot Discord</h1>
+        <p class="lead">
+          Bot Discord développé en Python, conçu pour être maintenable et facile à faire évoluer.
+          Le projet met l’accent sur une base propre : modules séparés, configuration validée au démarrage,
+          logs clairs, et commandes bornées.
+        </p>
+
+        <div class="cta-row">
+          <a class="button primary" href="documentation.html">Documentation technique</a>
+          <a
+            class="button ghost"
+            href="https://discord.com/api/oauth2/authorize?client_id=1204831024891043900&permissions=8&scope=applications.commands%20bot"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Inviter le bot
+          </a>
+        </div>
+
+        <ul class="meta">
+          <li><span class="meta-label">Préfixe</span> <code>!</code></li>
+          <li><span class="meta-label">Slash</span> <code>/ping</code>, <code>/purge</code>, <code>/roll</code></li>
+          <li><span class="meta-label">Lancement</span> <code>python -m bot</code></li>
+        </ul>
+      </div>
+
+      <aside class="card hero-card" aria-label="Aperçu">
+        <h2 class="card-title">Aperçu</h2>
+        <p class="card-text">
+          Fonctionnalités actuelles : ping/latence, purge de messages (admin), lancer de dé,
+          gestion de rôles par commande (admin), et commandes vocal (join/leave).
+        </p>
+
+
+        <p class="small">
+          Les commandes sensibles sont protégées par les permissions administrateur Discord.
+        </p>
+      </aside>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section class="section" id="points-forts">
+      <div class="container">
+        <h2>Points forts</h2>
+        <p class="section-lead">
+          Un bot utile sur un serveur, avec une base de code propre et une organisation qui tient la route.
+        </p>
+
+        <div class="grid grid-2">
+          <article class="card">
+            <h3 class="card-title">Code modulaire</h3>
+            <p class="card-text">
+              Chaque domaine est isolé dans un module : admin, fun, rôles, vocal.
+              Le noyau se limite à créer le bot, charger les modules, et synchroniser les slash commands.
+            </p>
+            <ul class="list">
+              <li>Extensions chargées automatiquement</li>
+              <li>Responsabilités bien séparées</li>
+              <li>Ajout de commandes sans toucher au cœur</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Comportements robustes</h3>
+            <p class="card-text">
+              Les entrées utilisateur sont bornées, les permissions sont vérifiées,
+              et les logs facilitent le diagnostic en cas de problème.
+            </p>
+            <ul class="list">
+              <li><code>purge</code> borné à 200 messages</li>
+              <li><code>roll</code> borné à 1000 faces</li>
+              <li>Logs formatés (date, niveau, module, message)</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="fonctionnalites">
+      <div class="container">
+        <h2>Fonctionnalités actuelles</h2>
+        <p class="section-lead">
+          Cette liste correspond exactement aux fonctionnalités présentes dans le code du projet.
+        </p>
+
+        <div class="grid">
+          <article class="card">
+            <h3 class="card-title">Administration</h3>
+            <p class="card-text">Diagnostic et nettoyage de salon.</p>
+            <ul class="list">
+              <li><code>!ping</code> et <code>/ping</code></li>
+              <li><code>!purge</code> et <code>/purge</code> (admin)</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Divertissement</h3>
+            <p class="card-text">Commande simple pour animer un serveur.</p>
+            <ul class="list">
+              <li><code>!roll</code> et <code>/roll</code></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Rôles</h3>
+            <p class="card-text">Ajout/retrait de rôle à l’auteur (admin).</p>
+            <ul class="list">
+              <li><code>!addrole</code> (admin)</li>
+              <li><code>!removerole</code> (admin)</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Vocal</h3>
+            <p class="card-text">Connexion/déconnexion en salon vocal.</p>
+            <ul class="list">
+              <li><code>!join</code></li>
+              <li><code>!leave</code></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="cta-row">
+          <a class="button primary" href="documentation.html">Voir la documentation complète</a>
+          <a class="button ghost" href="#installation">Installer</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="installation">
+      <div class="container">
+        <h2>Installer et lancer</h2>
+
+        <div class="grid grid-2">
+          <article class="card">
+            <h3 class="card-title">Prérequis</h3>
+            <ul class="list">
+              <li>Python 3.10+ recommandé</li>
+              <li>Dépendances installées via <code>requirements.txt</code></li>
+              <li>Bot Discord créé via le portail développeur</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Démarrage</h3>
+            <ol class="steps">
+              <li>Installer : <code>pip install -r requirements.txt</code></li>
+              <li>Configurer : renseigner le token dans <code>config.json</code></li>
+              <li>Lancer : <code>python -m bot</code></li>
+            </ol>
+          </article>
+        </div>
+
+        <article class="card note">
+          <h3 class="card-title">Organisation</h3>
+          <pre class="code-block"><code>bot/
+  bot.py            noyau (création, modules, sync slash)
+  admin.py          ping, purge (+ slash)
+  fun.py            roll (+ slash)
+  roles.py          addrole, removerole
+  music.py          join, leave
+  config.py         lecture/validation config.json
+  logging_config.py logs console
+  checks.py         check admin réutilisable</code></pre>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>Projet Python Discord : base modulaire, commandes utiles, comportement robuste.</p>
+      <p class="footer-muted"><a class="footer-link" href="documentation.html">Documentation</a></p>
+    </div>
+  </footer>
+</body>
+</html>
