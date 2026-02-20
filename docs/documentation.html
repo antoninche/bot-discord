@@ -1,0 +1,277 @@
+<!-- documentation.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation technique – Bot Discord</title>
+  <meta name="description" content="Documentation technique : commandes, permissions, configuration, et fonctionnement interne du bot Discord." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header">
+    <div class="container header-grid">
+      <div class="header-left">
+        <p class="tag">Documentation technique • Python • discord.py 2.x</p>
+        <h1>Documentation technique</h1>
+        <p class="lead">
+          Référence complète des commandes et du fonctionnement interne.
+          Le contenu ci-dessous correspond au code actuel (modules, validations, bornes et permissions).
+        </p>
+
+        <div class="cta-row">
+          <a class="button ghost" href="index.html">Retour à l’accueil</a>
+          <a
+            class="button primary"
+            href="https://discord.com/api/oauth2/authorize?client_id=1204831024891043900&permissions=8&scope=applications.commands%20bot"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Inviter le bot
+          </a>
+        </div>
+
+        <ul class="meta">
+          <li><span class="meta-label">Préfixe</span> <code>!</code></li>
+          <li><span class="meta-label">Slash</span> <code>/ping</code>, <code>/purge</code>, <code>/roll</code></li>
+          <li><span class="meta-label">Modules</span> <code>admin</code>, <code>fun</code>, <code>roles</code>, <code>music</code></li>
+        </ul>
+      </div>
+
+      <aside class="card hero-card" aria-label="Résumé technique">
+        <h2 class="card-title">Résumé technique</h2>
+        <p class="card-text">
+          Le bot charge automatiquement ses modules au démarrage, lit <code>config.json</code> avec validation stricte,
+          configure des logs standard, puis synchronise les slash commands si demandé.
+        </p>
+        <pre class="code-block"><code>pip install -r requirements.txt
+python -m bot</code></pre>
+        <p class="small">
+          Pour synchroniser rapidement en développement, définir <code>guild_id_for_dev_sync</code> dans <code>config.json</code>.
+        </p>
+      </aside>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section class="section" id="commandes">
+      <div class="container">
+        <h2>Commandes</h2>
+        <p class="section-lead">
+          Les commandes préfixées utilisent <code>!</code>. Les slash commands sont synchronisées au démarrage si activé.
+          Les paramètres sont bornés pour éviter les abus.
+        </p>
+
+        <div class="table-wrap" role="region" aria-label="Tableau des commandes" tabindex="0">
+          <table class="commands">
+            <thead>
+              <tr>
+                <th>Catégorie</th>
+                <th>Commande</th>
+                <th>Syntaxe</th>
+                <th>Paramètres</th>
+                <th>Comportement</th>
+                <th>Accès</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Admin</td>
+                <td><code>ping</code></td>
+                <td><code>!ping</code> / <code>/ping</code></td>
+                <td>Aucun</td>
+                <td>Renvoie la latence du bot en millisecondes.</td>
+                <td>Tout le monde</td>
+              </tr>
+
+              <tr>
+                <td>Admin</td>
+                <td><code>purge</code></td>
+                <td><code>!purge [limit]</code> / <code>/purge limit:&lt;n&gt;</code></td>
+                <td><code>limit</code> (défaut 10), borné 1..200</td>
+                <td>
+                  Supprime les messages du salon.
+                  En version préfixée, le bot purge <code>limit + 1</code> messages (inclut le message de commande),
+                  puis envoie un message de confirmation qui s’auto-supprime.
+                </td>
+                <td>Administrateur</td>
+              </tr>
+
+              <tr>
+                <td>Fun</td>
+                <td><code>roll</code></td>
+                <td><code>!roll [faces]</code> / <code>/roll faces:&lt;n&gt;</code></td>
+                <td><code>faces</code> (défaut 6), borné 2..1000</td>
+                <td>
+                  Tire un entier aléatoire entre 1 et <code>faces</code>.
+                  En slash, la réponse est éphémère (visible uniquement par l’utilisateur).
+                </td>
+                <td>Tout le monde</td>
+              </tr>
+
+              <tr>
+                <td>Rôles</td>
+                <td><code>addrole</code></td>
+                <td><code>!addrole &lt;nom_du_role&gt;</code></td>
+                <td><code>nom_du_role</code> (string)</td>
+                <td>
+                  Ajoute à l’auteur le rôle dont le nom correspond (comparaison insensible à la casse).
+                  Réponses possibles : “Contexte invalide”, “Rôle introuvable”, “Rôle ajouté: …”.
+                </td>
+                <td>Administrateur</td>
+              </tr>
+
+              <tr>
+                <td>Rôles</td>
+                <td><code>removerole</code></td>
+                <td><code>!removerole &lt;nom_du_role&gt;</code></td>
+                <td><code>nom_du_role</code> (string)</td>
+                <td>
+                  Retire le rôle correspondant à l’auteur. Même logique de recherche et messages que <code>addrole</code>.
+                </td>
+                <td>Administrateur</td>
+              </tr>
+
+              <tr>
+                <td>Vocal</td>
+                <td><code>join</code></td>
+                <td><code>!join</code></td>
+                <td>Aucun</td>
+                <td>
+                  Rejoint le salon vocal de l’auteur (ou s’y déplace si déjà connecté).
+                  Si l’auteur n’est pas en vocal : “Tu dois être dans un canal vocal.”
+                </td>
+                <td>Tout le monde (auteur en vocal)</td>
+              </tr>
+
+              <tr>
+                <td>Vocal</td>
+                <td><code>leave</code></td>
+                <td><code>!leave</code></td>
+                <td>Aucun</td>
+                <td>
+                  Déconnecte le bot du vocal. Si non connecté : “Je ne suis pas connecté.”
+                </td>
+                <td>Tout le monde</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <article class="card note">
+          <h3 class="card-title">Permissions</h3>
+          <p class="card-text">
+            Les commandes sensibles sont protégées par des checks basés sur les permissions Discord.
+            <code>!purge</code>, <code>!addrole</code> et <code>!removerole</code> exigent la permission “Administrateur”.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section alt" id="configuration">
+      <div class="container">
+        <h2>Configuration</h2>
+        <p class="section-lead">
+          Le bot lit <code>config.json</code> au démarrage et valide les champs. En cas d’erreur, il s’arrête avec un message explicite.
+        </p>
+
+        <div class="table-wrap" role="region" aria-label="Tableau de configuration" tabindex="0">
+          <table class="commands">
+            <thead>
+              <tr>
+                <th>Clé</th>
+                <th>Type</th>
+                <th>Contraintes</th>
+                <th>Rôle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>token</code></td>
+                <td>string</td>
+                <td>non vide</td>
+                <td>Token Discord du bot.</td>
+              </tr>
+              <tr>
+                <td><code>prefix</code></td>
+                <td>string</td>
+                <td>non vide</td>
+                <td>Préfixe des commandes préfixées (ex. <code>!</code>).</td>
+              </tr>
+              <tr>
+                <td><code>sync_slash_commands</code></td>
+                <td>bool</td>
+                <td>par défaut <code>true</code></td>
+                <td>Active la synchronisation des slash commands.</td>
+              </tr>
+              <tr>
+                <td><code>guild_id_for_dev_sync</code></td>
+                <td>int ou null</td>
+                <td>int positif ou <code>null</code></td>
+                <td>Si défini, synchronise les slash commands sur un serveur précis (plus rapide en dev).</td>
+              </tr>
+              <tr>
+                <td><code>log_level</code></td>
+                <td>string</td>
+                <td>non vide (ex. INFO)</td>
+                <td>Niveau de logs console.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="interne">
+      <div class="container">
+        <h2>Fonctionnement interne</h2>
+
+        <div class="grid grid-2">
+          <article class="card">
+            <h3 class="card-title">Chargement des modules</h3>
+            <p class="card-text">
+              Au démarrage, le bot charge automatiquement les extensions :
+              <code>bot.admin</code>, <code>bot.fun</code>, <code>bot.roles</code>, <code>bot.music</code>.
+              Les erreurs éventuelles sont loggées.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Synchronisation des slash commands</h3>
+            <p class="card-text">
+              Si activé, le bot synchronise l’arbre de commandes.
+              En mode dev (guild_id renseigné), la sync est faite sur le serveur cible.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Intents</h3>
+            <p class="card-text">
+              Le bot active <code>message_content</code> (commandes préfixées) et <code>members</code> (rôles/permissions).
+            </p>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Logs</h3>
+            <p class="card-text">
+              Les logs suivent le format :
+              <code>date | niveau | module | message</code>.
+              Le bot annonce aussi l’utilisateur connecté lors de <code>on_ready</code>.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>Documentation technique : commandes, configuration, et fonctionnement interne.</p>
+      <p class="footer-muted"><a class="footer-link" href="index.html">Accueil</a></p>
+    </div>
+  </footer>
+</body>
+</html>
