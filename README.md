@@ -100,3 +100,10 @@ Avant de lancer le projet, installez les bibliothèques nécessaires à l'aide d
 
 ```bash
 pip install -r requirements.txt 
+
+```
+---
+
+## 👤 Auteur
+
+Projet réalisé dans un objectif d’apprentissage avancé et de portfolio e-commerce front-end.
