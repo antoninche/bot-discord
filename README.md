@@ -1,6 +1,6 @@
 # 🤖 Projet NSI BOT DISCORD : Bot Discord Modulaire (Python)
 
-## 📌 Présentation du Projet
+## Présentation du Projet
 Ce projet est un bot Discord développé en Python avec **discord.py**.  
 L’objectif est de proposer un bot **simple, stable et propre** : une architecture modulaire, une configuration validée au démarrage, des logs clairs, et des commandes utiles pour un serveur.
 
@@ -11,9 +11,9 @@ Site / Documentation :
 
 ---
 
-## 🚀 Fonctionnalités Détaillées
+## Fonctionnalités Détaillées
 
-### 🛡️ Administration
+### Administration
 * **Ping (latence)** :
   * `!ping` et `/ping` : affiche la latence du bot en millisecondes.
 * **Nettoyage de salon (purge)** :
@@ -24,13 +24,13 @@ Site / Documentation :
 * **Sécurité** :
   * Les commandes sensibles sont réservées aux utilisateurs ayant la permission Discord **Administrateur**.
 
-### 🎲 Divertissement
+### Divertissement
 * **Lancer un dé** :
   * `!roll [faces]` et `/roll faces:<n>` : tire un nombre aléatoire entre 1 et `faces`.
   * `faces` est borné entre **2 et 1000** (défaut : 6).
   * En slash, la réponse est **éphémère** (visible uniquement par l’utilisateur).
 
-### 🏷️ Gestion des rôles
+### Gestion des rôles
 * **Ajouter un rôle à l’auteur** :
   * `!addrole <nom_du_role>` : ajoute un rôle à l’auteur de la commande.
   * Recherche de rôle insensible à la casse (nom exact).
@@ -39,7 +39,7 @@ Site / Documentation :
 * **Sécurité** :
   * Ces commandes sont réservées aux **Administrateurs**.
 
-### 🔊 Vocal
+### Vocal
 * **Rejoindre un salon vocal** :
   * `!join` : le bot rejoint le salon vocal où se trouve l’auteur (ou s’y déplace s’il est déjà connecté ailleurs).
 * **Quitter le salon vocal** :
@@ -49,7 +49,7 @@ Site / Documentation :
 
 ---
 
-## 🧠 Fonctionnement Interne 
+## Fonctionnement Interne 
 * **Architecture modulaire** : chaque domaine est isolé (admin, fun, rôles, vocal).
 * **Chargement automatique des modules** au démarrage.
 * **Configuration validée** : le bot lit `config.json` et vérifie les champs et types.
@@ -59,7 +59,7 @@ Site / Documentation :
 
 ---
 
-## 🛠️ Stack Technique
+## Stack Technique
 * **Langage** : Python (3.10+ recommandé)
 * **Lib Discord** : discord.py 2.x
 * **Configuration** : fichier `config.json` (validation stricte)
@@ -68,7 +68,7 @@ Site / Documentation :
 
 ---
 
-## 📂 Structure du Projet
+## Structure du Projet
 ```text
 bot_discord/
 │
@@ -94,7 +94,7 @@ bot_discord/
 ```
 ---
 
-## 🛠️ Installation des dépendances
+## Installation des dépendances
 
 Avant de lancer le projet, installez les bibliothèques nécessaires à l'aide du fichier `requirements.txt` :
 
@@ -104,6 +104,6 @@ pip install -r requirements.txt
 ```
 ---
 
-## 👤 Auteur
+## Auteur
 
 Projet réalisé dans un objectif d’apprentissage avancé et de portfolio e-commerce front-end.
