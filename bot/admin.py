@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 
 from bot.checks import is_admin
-
+ 
 
 class AdminCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
