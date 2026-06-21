@@ -7,7 +7,6 @@ from discord.ext import commands
 class MusicCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-
     @commands.command(name="join")
     async def join_prefix(self, ctx: commands.Context) -> None:
         if not isinstance(ctx.author, discord.Member) or ctx.author.voice is None:
