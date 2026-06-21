@@ -9,7 +9,6 @@ from discord.ext import commands
 
 from bot.bot import DiscordBot
 
-
 @dataclass(slots=True)
 class XPCooldown:
     last_ts: float
