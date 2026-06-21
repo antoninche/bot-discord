@@ -6,7 +6,6 @@ from discord.ext import commands
 from bot.bot import DiscordBot
 from bot.checks import is_admin
 
-
 class ReactionRolesCog(commands.Cog):
     def __init__(self, bot: DiscordBot) -> None:
         self.bot = bot
