@@ -1,4 +1,4 @@
-# 🤖 Projet NSI BOT DISCORD : Bot Discord Modulaire (Python)
+# 🤖 Projet BOT DISCORD : Bot Discord Modulaire (Python)
 
 ## Présentation du Projet
 Ce projet est un bot Discord développé en Python avec **discord.py**.  
