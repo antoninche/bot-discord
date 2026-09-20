@@ -1,109 +1,51 @@
-# 🤖 Projet BOT DISCORD : Bot Discord Modulaire (Python)
+# Bot Discord
 
-## Présentation du Projet
-Ce projet est un bot Discord développé en Python avec **discord.py**.  
-L’objectif est de proposer un bot **simple, stable et propre** : une architecture modulaire, une configuration validée au démarrage, des logs clairs, et des commandes utiles pour un serveur.
+Un bot Discord modulaire en Python (discord.py 2.x), avec modération, automod,
+système de niveaux et tickets. Chaque commande existe en version préfixée
+(`!ping`) et en slash (`/ping`).
 
-Le dépôt inclut aussi un **site web de présentation + documentation**, hébergé via **GitHub Pages**.
+Documentation complète : https://antoninche.github.io/bot-discord/
 
-Site / Documentation :
-- https://antoninche.github.io/bot_discord/
+## Commandes
 
----
+| Domaine | Commandes |
+|---|---|
+| Administration | `ping` `purge` |
+| Modération | `ban` `kick` `timeout` `unban` `warn` `warnings` |
+| Automod | `automod` `anticaps` `antilinks` `setlogchannel` |
+| Niveaux | `rank` `leaderboard` `xp` |
+| Rôles | `addrole` `removerole` `reactionrole` `roleinfo` |
+| Tickets | `ticket` |
+| Infos | `userinfo` `serverinfo` `avatar` |
+| Vocal | `join` `leave` |
+| Divers | `roll` `coinflip` `choose` `setprefix` |
 
-## Fonctionnalités Détaillées
+Les commandes sensibles sont réservées aux membres ayant la permission
+Administrateur. `purge` est borné à 200 messages, `roll` à 1000 faces.
 
-### Administration
-* **Ping (latence)** :
-  * `!ping` et `/ping` : affiche la latence du bot en millisecondes.
-* **Nettoyage de salon (purge)** :
-  * `!purge [limit]` et `/purge limit:<n>` : supprime les derniers messages du salon.
-  * `limit` est borné entre **1 et 200** (défaut : 10).
-  * En version préfixée, le bot supprime aussi le message de commande (purge `limit + 1`).
-  * La confirmation s’auto-supprime après quelques secondes.
-* **Sécurité** :
-  * Les commandes sensibles sont réservées aux utilisateurs ayant la permission Discord **Administrateur**.
+## Fonctionnement
 
-### Divertissement
-* **Lancer un dé** :
-  * `!roll [faces]` et `/roll faces:<n>` : tire un nombre aléatoire entre 1 et `faces`.
-  * `faces` est borné entre **2 et 1000** (défaut : 6).
-  * En slash, la réponse est **éphémère** (visible uniquement par l’utilisateur).
+Chaque domaine est un module séparé dans `bot/`, chargé automatiquement au
+démarrage. `config.json` est lu et validé avant la connexion : si un champ
+manque ou n'a pas le bon type, le bot s'arrête avec un message explicite plutôt
+que de planter plus tard.
 
-### Gestion des rôles
-* **Ajouter un rôle à l’auteur** :
-  * `!addrole <nom_du_role>` : ajoute un rôle à l’auteur de la commande.
-  * Recherche de rôle insensible à la casse (nom exact).
-* **Retirer un rôle à l’auteur** :
-  * `!removerole <nom_du_role>` : retire le rôle à l’auteur.
-* **Sécurité** :
-  * Ces commandes sont réservées aux **Administrateurs**.
+Les préfixes, salons de logs et réglages d'automod sont stockés par serveur
+(`guild_config.py`), ce qui permet au même bot de tourner sur plusieurs serveurs
+avec des configurations différentes.
 
-### Vocal
-* **Rejoindre un salon vocal** :
-  * `!join` : le bot rejoint le salon vocal où se trouve l’auteur (ou s’y déplace s’il est déjà connecté ailleurs).
-* **Quitter le salon vocal** :
-  * `!leave` : déconnecte le bot du vocal.
-* **Contrôles** :
-  * Le bot refuse la commande si l’utilisateur n’est pas en vocal, ou s’il n’est pas connecté lors de `!leave`.
+La synchronisation des slash commands est globale par défaut ; renseigner
+`guild_id_for_dev_sync` dans la config la limite à un serveur de test, ce qui
+évite d'attendre la propagation Discord pendant le développement.
 
----
-
-## Fonctionnement Interne 
-* **Architecture modulaire** : chaque domaine est isolé (admin, fun, rôles, vocal).
-* **Chargement automatique des modules** au démarrage.
-* **Configuration validée** : le bot lit `config.json` et vérifie les champs et types.
-* **Logs normalisés** : format stable (date, niveau, module, message) pour diagnostiquer rapidement.
-* **Synchronisation des slash commands** :
-  * Sync globale (par défaut) ou sync sur un serveur de dev si `guild_id_for_dev_sync` est renseigné.
-
----
-
-## Stack Technique
-* **Langage** : Python (3.10+ recommandé)
-* **Lib Discord** : discord.py 2.x
-* **Configuration** : fichier `config.json` (validation stricte)
-* **Logs** : module `logging` (format unifié)
-* **Site** : HTML/CSS (GitHub Pages)
-
----
-
-## Structure du Projet
-```text
-bot_discord/
-│
-├── bot/
-│   ├── __main__.py          # Point d’entrée : python -m bot
-│   ├── bot.py               # Création du bot + chargement modules + sync slash
-│   ├── admin.py             # Commandes admin (ping, purge) + slash
-│   ├── fun.py               # Commandes fun (roll) + slash
-│   ├── roles.py             # Gestion rôles (addrole, removerole)
-│   ├── music.py             # Vocal (join, leave)
-│   ├── config.py            # Lecture + validation config.json
-│   ├── logging_config.py    # Configuration des logs
-│   └── checks.py            # Checks réutilisables (admin)
-│
-├── docs/                    # Site GitHub Pages (présentation + documentation)
-│   ├── index.html
-│   ├── documentation.html
-│   └── styles.css
-│
-├── config.json              # Configuration (token, prefix, logs, sync)
-├── requirements.txt         # Dépendances Python
-└── README.md
-```
----
-
-## Installation des dépendances
-
-Avant de lancer le projet, installez les bibliothèques nécessaires à l'aide du fichier `requirements.txt` :
+## Lancer le bot
 
 ```bash
-pip install -r requirements.txt 
-
+pip install -r requirements.txt
+# renseigner le token dans config.json
+python -m bot
 ```
----
 
-## Auteur
+Python 3.10 ou plus.
 
-Projet réalisé dans un objectif d’apprentissage avancé et de portfolio e-commerce front-end.
+Licence MIT.
