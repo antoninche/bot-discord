@@ -8,7 +8,6 @@ def is_admin() -> commands.Check:
     """
     Check réutilisable: autorise uniquement les membres ayant la permission Administrateur.
     """
-
     async def predicate(ctx: commands.Context) -> bool:
         if not isinstance(ctx.author, discord.Member):
             return False
