@@ -10,7 +10,6 @@ from discord.ext import commands
 
 from bot.bot import DiscordBot
 
-
 URL_RE = re.compile(r"(https?://|discord\.gg/|www\.)", re.IGNORECASE)
 
 
